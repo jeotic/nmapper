@@ -1,6 +1,9 @@
 ## NMapper Prototype
 This application allows you to view NMap runs by IP Address and uploading new Runs. Note, this is in very early stages, and *many* shortcuts have been taken.
 
+The `server.exe` was built in Windows 10. Mileage may vary. You can run it VIA command-line:
+`./server.exe`
+
 ## Note
 I did not add support for a production build for the UI. You'll need to use the built in `npm start` (read below)
 
