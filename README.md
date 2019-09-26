@@ -50,6 +50,15 @@ Then run the server
 You can also run the parser alone
 `go run cmd/server/parser.go`
 
+For the UI
+`npm install`
+
+For HTTP service
+`npm start`
+
+To build
+`npm build`
+
 ## Things to do
 
  - Clean up code
