@@ -1,5 +1,5 @@
 import React, { Component, ReactNode } from 'react';
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import axios, { AxiosError } from 'axios';
 import { Paper } from '@material-ui/core';
 
 export class Ajax extends Component<IAjaxProps> {

@@ -9,6 +9,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/jeotic/nmapper/pkg"
 	"github.com/jeotic/nmapper/pkg/nmap"
+	"github.com/jeotic/nmapper/pkg/parser"
 	"github.com/jinzhu/gorm"
 	_ "github.com/mattn/go-sqlite3"
 	"log"
@@ -57,6 +58,7 @@ func (s *Server) initRoutes() {
 	s.Router.HandleFunc("/runs/{run_id}/hosts", s.GetHosts).Methods("GET")
 	s.Router.HandleFunc("/runs/{run_id}/hosts/{host_id}/ports", s.GetPorts).Methods("GET")
 	s.Router.HandleFunc("/runs/{run_id}/hosts/{host_id}/names", s.GetHostNames).Methods("GET")
+	s.Router.HandleFunc("/upload", s.UploadXML).Methods("POST")
 }
 
 func (s *Server) Run(addr string) {
@@ -216,4 +218,28 @@ func (s *Server) GetHostNames(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
+}
+
+func (s *Server) UploadXML(w http.ResponseWriter, r *http.Request) {
+	r.ParseMultipartForm(10 << 20)
+
+	file, _, err := r.FormFile("xml")
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	defer file.Close()
+
+	nmap_id, err := parser.ParseReader(s.Env, file)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	data := map[string]int64{"Id": nmap_id}
+
+	err = json.NewEncoder(w).Encode(data)
 }

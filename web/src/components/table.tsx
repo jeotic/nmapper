@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
   createStyles,
-  Grid,
   makeStyles,
   Paper,
   Table,
@@ -17,9 +16,13 @@ import { ReactNodeLike } from 'prop-types';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      width: '100%',
+      width: '100%'
+    },
+    paper: {
       marginTop: theme.spacing(3),
-      overflowX: 'auto'
+      width: '100%',
+      overflowX: 'auto',
+      marginBottom: theme.spacing(2)
     },
     table: {
       minWidth: 650
@@ -27,14 +30,23 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+function StyledContainer({ children }: { children: ReactNodeLike }) {
+  const classes = useStyles();
+  return <div className={classes.root}>{children}</div>;
+}
+
 function StyledTable({ children }: { children: ReactNodeLike }) {
   const classes = useStyles();
-  return <Table className={classes.root}>{children}</Table>;
+  return (
+    <Table className={classes.table} size="small">
+      {children}
+    </Table>
+  );
 }
 
 function StyledPaper({ children }: { children: ReactNodeLike }) {
   const classes = useStyles();
-  return <Paper className={classes.root}>{children}</Paper>;
+  return <Paper className={classes.paper}>{children}</Paper>;
 }
 
 export class TableComponent extends Component<ITableComponent> {
@@ -43,38 +55,36 @@ export class TableComponent extends Component<ITableComponent> {
     let columns: string[] = [];
 
     if (rows[0]) {
-      columns = Object.keys(rows[0] as object);
+      Object.keys(rows[0] as object).forEach((key: string) => {
+        if (!(rows[0][key] instanceof Object)) {
+          columns.push(key);
+        }
+      });
     }
 
     return (
-      <StyledPaper>
-        <StyledTable>
-          <TableHead>
-            <TableRow key={getKey()}>
-              {columns.map((column: string) => (
-                <TableCell>{column}</TableCell>
+      <StyledContainer>
+        <StyledPaper>
+          <StyledTable>
+            <TableHead>
+              <TableRow key={getKey()}>
+                {columns.map((column: string) => (
+                  <TableCell key={getKey()}>{column}</TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows.map((row: Whatever) => (
+                <TableRow key={getKey()}>
+                  {columns.map((column: string) => (
+                    <TableCell key={getKey()}>{!(row[column] instanceof Object) && row[column]}</TableCell>
+                  ))}
+                </TableRow>
               ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            <TableRow key={getKey()}>
-              {rows.map((row: Whatever) => {
-                return columns.map((column: string) => (
-                  <TableCell>
-                    {!(row[column] instanceof Object) && row[column]}
-                    {row[column] instanceof Object && (
-                      <div>
-                        {column}
-                        <TableComponent rows={[row[column]]} />
-                      </div>
-                    )}
-                  </TableCell>
-                ));
-              })}
-            </TableRow>
-          </TableBody>
-        </StyledTable>
-      </StyledPaper>
+            </TableBody>
+          </StyledTable>
+        </StyledPaper>
+      </StyledContainer>
     );
   }
 }

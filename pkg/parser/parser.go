@@ -225,7 +225,7 @@ func RunQuery(env pkg.ENV, qs *goqu.InsertDataset) (int64, error) {
 		return -1, err
 	}
 
-	res, err := env.DB.Exec(query, args...)
+	res, err := env.DB.DB().Exec(query, args...)
 
 	if err != nil {
 		return -1, err

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Grid, Paper, Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
-import { Ajax, IAjaxProps } from './ajax';
-import { Run } from '../interfaces/run';
+import { Grid } from '@material-ui/core';
+import { Ajax } from './ajax';
 import { TableComponent } from './table';
+import { getKey } from '../global-key';
 
 export class HostsComponent extends Component<IHostsComponentProp> {
   public render() {
@@ -11,10 +11,10 @@ export class HostsComponent extends Component<IHostsComponentProp> {
     return (
       <Ajax url={`/runs/${RunId}/hosts`}>
         {(hosts: any[]) => (
-          <Grid xs={12}>
+          <Grid container key={getKey()}>
             Hosts
             {hosts.map(host => (
-              <Grid xs={12}>
+              <Grid item xs={12} key={getKey()}>
                 <TableComponent rows={[host]} />
                 <Ajax url={`/runs/${RunId}/hosts/${host.Id}/ports`}>
                   {(ports: object[]) => (

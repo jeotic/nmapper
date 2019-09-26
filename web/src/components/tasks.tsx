@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Grid, Paper, Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
-import { Ajax, IAjaxProps } from './ajax';
-import { Run } from '../interfaces/run';
+import { Grid } from '@material-ui/core';
+import { Ajax } from './ajax';
 import { TableComponent } from './table';
 
 export class TasksComponent extends Component<ITasksComponentProp> {
@@ -13,7 +12,7 @@ export class TasksComponent extends Component<ITasksComponentProp> {
         {(tasks: object[]) => (
           <Grid item xs={12}>
             Tasks
-            <TableComponent rows={tasks}></TableComponent>
+            <TableComponent rows={tasks} />
           </Grid>
         )}
       </Ajax>
