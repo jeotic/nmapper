@@ -1,3 +1,3 @@
 export interface Run {
-    Id: number;
+  Id: number;
 }
