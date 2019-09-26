@@ -5,7 +5,10 @@ The `server.exe` was built in Windows 10. Mileage may vary. You can run it VIA c
 `./server.exe`
 
 ## Note
+This XML Parser only supports the XML in the code-base. There are many other NMap elements, but none are supported
+
 I did not add support for a production build for the UI. You'll need to use the built in `npm start` (read below)
+
 
 The UI and API are separate services. 
 API: `locahost:8000`
