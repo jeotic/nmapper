@@ -1,11 +1,11 @@
 package pkg
 
 import (
-	"database/sql"
 	"github.com/doug-martin/goqu/v9"
+	"github.com/jinzhu/gorm"
 )
 
 type ENV struct {
-	DB      *sql.DB
+	DB      *gorm.DB
 	Builder goqu.DialectWrapper
 }
